@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Akif to Abyan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@500;600;700&family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --blush: #F8D7E6;
+    --tulip: #FF8FB1;
+    --rose: #FFB6C1;
+    --cream: #FFF8F5;
+    --gold: #EFD9A7;
+    --deep: #4E2735;
+    --light: rgba(255, 255, 255, 0.72);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, rgba(255, 239, 171, 0.2), transparent 30%),
+                linear-gradient(180deg, #fff6f5 0%, #ffe7f1 35%, #ffd6e8 100%);
+    color: #3f1f2f;
+    overflow-x: hidden;
+}
+
+button,
+.memory-card button {
+    font-family: inherit;
+}
+
+main {
+    position: relative;
+}
+
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 8, 12, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.intro-wrap {
+    position: relative;
+    width: min(95vw, 540px);
+    text-align: center;
+    color: #fff;
+}
+
+.intro-title,
+.intro-subtitle,
+.intro-copy {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+.intro-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.6rem); letter-spacing: 0.08em; }
+.intro-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.5vw, 1.7rem); margin: 0.6rem 0 0.2rem; }
+.intro-copy { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.8; max-width: 28rem; margin: 0 auto; }
+
+.intro-title { animation-delay: 2.2s; }
+.intro-subtitle { animation-delay: 2.6s; }
+.intro-copy { animation-delay: 3s; }
+
+.intro-scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 3rem;
+    transform: translateX(-50%);
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards 3.6s;
+}
+
+.scroll-bounce {
+    width: 30px;
+    height: 46px;
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 20px;
+    position: relative;
+}
+
+.scroll-bounce::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: scrollDot 1.4s ease infinite;
+}
+
+@keyframes scrollDot {
+    0%, 100% { top: 14px; opacity: 1; }
+    50% { top: 28px; opacity: 0.35; }
+}
+
+.petal-container,
+.tulip-cloud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.petal,
+.tulip {
+    position: absolute;
+    pointer-events: none;
+}
+
+.petal {
+    width: 14px;
+    height: 18px;
+    border-radius: 45% 55% 50% 60%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255, 140, 177, 0.95));
+    filter: drop-shadow(0 0 8px rgba(255, 178, 201, 0.7));
+    opacity: 0.85;
+    transform-origin: center bottom;
+}
+
+.tulip {
+    width: 70px;
+    height: 90px;
+    border-radius: 40% 40% 48% 48%;
+    background: linear-gradient(180deg, #fff1f5, #ff88a8 45%, #d84875 100%);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+
+.tulip::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -18px;
+    width: 58px;
+    height: 55px;
+    border-radius: 50% 50% 40% 40%;
+    background: radial-gradient(circle at 40% 20%, #ffe4ed, transparent 55%),
+                radial-gradient(circle at 60% 20%, #ffd0dd, transparent 55%);
+    transform: translateX(-50%);
+}
+
+.tulip::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 64px;
+    width: 7px;
+    height: 45px;
+    background: #91334f;
+    transform: translateX(-50%) rotate(10deg);
+    border-radius: 4px;
+}
+
+.bouquet-stage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+}
+
+.bouquet-stage img {
+    width: min(100%, 38rem);
+    max-width: 420px;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1s ease, transform 1s ease;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.22);
+}
+
+.bouquet-ready .bouquet-stage img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.bouquet-stage img {
+    animation: bloomBouquet 2s ease 2.8s forwards;
+}
+
+@keyframes bloomBouquet {
+    from { transform: scale(0.9) rotate(-2deg); opacity: 0; }
+    to { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero {
+    min-height: 100vh;
+    width: 100%;
+    padding: clamp(24px, 4vw, 50px) 20px 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255,255,255,0.35), transparent 28%),
+                radial-gradient(circle at bottom left, rgba(255,244,232,0.55), transparent 22%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 3rem 1.2rem;
+    display: grid;
+    gap: 1.6rem;
+}
+
+.hero-card {
+    position: relative;
+    background: rgba(255,255,255,0.58);
+    border: 1px solid rgba(255,255,255,0.95);
+    backdrop-filter: blur(18px);
+    border-radius: 32px;
+    box-shadow: 0 28px 80px rgba(146, 47, 84, 0.12);
+    overflow: hidden;
+    padding: 2.5rem 2rem;
+}
+
+.hero-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,225,235,0.12));
+    pointer-events: none;
+}
+
+.hero-card h1,
+.hero-card h2,
+.hero-card p {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-card h1 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.3rem);
+    color: #4f2338;
+    letter-spacing: 0.04em;
+}
+
+.hero-card h2 {
+    margin: 0.8rem 0 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 2.3vw, 1.6rem);
+    color: #6b3a53;
+}
+
+.hero-card p {
+    margin: 1.6rem 0 0;
+    font-size: 1rem;
+    color: #5a3244;
+    line-height: 1.8;
+}
+
+.section {
+    position: relative;
+    padding: clamp(36px, 5vw, 60px) 20px;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    margin-bottom: 1.2rem;
+    text-align: center;
+    color: #5e2f49;
+}
+
+.subheading {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #74425a;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+}
+
+.letter-card {
+    position: relative;
+    background: linear-gradient(180deg, rgba(255,250,244,0.98), rgba(255,244,237,0.95));
+    border: 1px solid rgba(255,255,255,0.95);
+    box-shadow: 0 24px 80px rgba(132, 61, 88, 0.14);
+    border-radius: 28px;
+    padding: 3rem 2.4rem;
+    max-width: 840px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.letter-fold {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent 45%);
+    pointer-events: none;
+    animation: letterUnfold 1.4s ease 0.8s forwards;
+    transform-origin: top center;
+}
+
+@keyframes letterUnfold {
+    from { transform: translateX(-50%) scaleY(0.08); opacity: 0; }
+    to { transform: translateX(-50%) scaleY(1); opacity: 1; }
+}
+
+.letter-copy {
+    position: relative;
+    z-index: 1;
+    white-space: pre-line;
+    line-height: 1.8;
+    color: #4a2439;
+    font-size: clamp(1rem, 1.1vw, 1.08rem);
+    letter-spacing: 0.01em;
+}
+
+.letter-copy strong {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+
+.letter-note {
+    text-align: center;
+    margin-top: 2.4rem;
+    color: #8b4b6f;
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+}
+
+.memory-list {
+    display: grid;
+    gap: 2.5rem;
+}
+
+.memory-card {
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+    background: rgba(255,255,255,0.62);
+    border: 1px solid rgba(255,255,255,0.9);
+    backdrop-filter: blur(18px);
+    border-radius: 30px;
+    padding: 1.8rem;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(145, 60, 93, 0.12);
+    opacity: 0;
+    transform: translateY(32px);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.memory-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.memory-card::before,
+.memory-card::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 36px;
+    background: radial-gradient(circle, rgba(255,255,255,0.9), transparent 65%);
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.memory-card::before { top: 16px; left: 16px; transform: rotate(-6deg); }
+.memory-card::after { bottom: 18px; right: 18px; transform: rotate(6deg); }
+
+.memory-card .caption {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.memory-card .caption h3 {
+    margin: 0;
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.55rem, 3vw, 2.2rem);
+    color: #612f4e;
+}
+
+.memory-card .caption p {
+    margin: 0;
+    font-size: 0.99rem;
+    color: #6d3f58;
+    letter-spacing: 0.01em;
+}
+
+.memory-card img {
+    width: 100%;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.75);
+    box-shadow: 0 18px 40px rgba(103, 40, 67, 0.12);
+    object-fit: cover;
+    min-height: 260px;
+}
+
+.memory-card .floating-text {
+    position: relative;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.memory-card .floating-text span {
+    display: inline-block;
+    font-family: 'Dancing Script', cursive;
+    color: #b86a86;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 26px rgba(193, 100, 150, 0.12);
+}
+
+.memory-card.left { transform: rotate(-0.8deg); }
+.memory-card.right { transform: rotate(0.8deg); }
+
+.memory-card.left::before { left: 18px; top: 18px; }
+.memory-card.left::after { right: 22px; bottom: 22px; }
+.memory-card.right::before { left: 28px; top: 14px; }
+.memory-card.right::after { right: 14px; bottom: 16px; }
+
+.memory-card.left img { transform: scale(1.01) rotate(-0.25deg); }
+.memory-card.right img { transform: scale(1.01) rotate(0.25deg); }
+
+.memory-card .card-tag {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.88rem;
+    color: #8b456f;
+    opacity: 0.8;
+}
+
+.memory-card .polaroid {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255, 196, 214, 0.75);
+    border-radius: 24px;
+    padding: 1rem;
+}
+
+.final-garden {
+    min-height: 90vh;
+    padding: clamp(40px, 5vw, 80px) 20px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.garden-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(255,255,255,0.5), transparent 25%),
+                linear-gradient(180deg, #fff7f4 0%, #ffe2ea 40%, #ffd1e3 100%);
+    z-index: 0;
+}
+
+.garden-flowers {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.bloom {
+    position: absolute;
+    width: 80px;
+    height: 112px;
+    background: radial-gradient(circle at 50% 35%, #ffe8f1 0%, #ff9dbf 38%, #d65e88 100%);
+    border-radius: 50% 50% 50% 50%;
+    filter: drop-shadow(0 10px 20px rgba(169, 86, 117, 0.22));
+    opacity: 0.95;
+}
+
+.bloom::before {
+    content: '';
+    position: absolute;
+    inset: 14px 14px 18px;
+    background: radial-gradient(circle, rgba(255,255,255,0.95), transparent 60%),
+                radial-gradient(circle at 30% 20%, #ffdee8 0%, transparent 55%);
+    border-radius: inherit;
+}
+
+.bloom:nth-child(odd) { width: 72px; height: 102px; }
+
+.sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,255,255,0));
+    filter: drop-shadow(0 0 14px rgba(255,255,255,0.7));
+    border-radius: 50%;
+    opacity: 0.9;
+    animation: floatUp 8s infinite ease-in;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(0.9); opacity: 0.7; }
+    50% { transform: translateY(-48px) scale(1.1); opacity: 1; }
+    100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
+}
+
+.final-message {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 700px;
+    padding: 3rem 2rem;
+    background: rgba(255,255,255,0.66);
+    border: 1px solid rgba(255,255,255,0.95);
+    border-radius: 34px;
+    box-shadow: 0 28px 90px rgba(150, 59, 92, 0.18);
+    backdrop-filter: blur(14px);
+}
+
+.final-message p {
+    margin: 0.75rem 0;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    color: #5b3048;
+    line-height: 1.75;
+}
+
+.final-message .flower {
+    font-size: 2.8rem;
+}
+
+.final-message .author {
+    margin-top: 1.6rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    color: #7a4d6f;
+}
+
+.audio-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 5;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.audio-panel button,
+.audio-panel label {
+    background: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+    font-size: 0.92rem;
+    color: #683a5f;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.audio-panel button:hover,
+.audio-panel label:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 40px rgba(141, 73, 103, 0.14);
+}
+
+audio {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hero-card { padding: 2rem 1.4rem; }
+    .letter-card { padding: 2.2rem 1.6rem; }
+    .memory-card { padding: 1.4rem 1.2rem; }
+    .memory-card .card-tag { display: none; }
+    .final-message { padding: 2.4rem 1.4rem; }
+}
+
+@media (max-width: 520px) {
+    .intro-title { font-size: 2.8rem; }
+    .intro-subtitle { font-size: 1.2rem; }
+    .intro-copy { font-size: 0.96rem; }
+}
+</style>
+</head>
+<body>
+<main>
+    <section class="intro-overlay" id="introOverlay">
+        <div class="petal-container" id="petalContainer"></div>
+        <div class="tulip-cloud" id="tulipCloud"></div>
+        <div class="bouquet-stage" id="bouquetStage">
+            <img src="1b37bbb7-d83d-490f-aafe-ee8ca7a20041.png" alt="Final bouquet">
+        </div>
+        <div class="intro-wrap bouquet-ready" id="introText">
+            <div class="intro-title">Sent By Akif 🌷</div>
+            <div class="intro-subtitle">To Abyan</div>
+            <div class="intro-copy">Scroll down for your memory lane ♡</div>
+            <div class="intro-scroll">
+                <div class="scroll-bounce"></div>
+                <div>Scroll down for your memory lane</div>
+            </div>
+        </div>
+    </section>
+    <div class="audio-panel">
+        <label for="musicUpload">Choose music</label>
+        <input type="file" id="musicUpload" accept="audio/*" style="display:none;">
+        <button id="audioToggle">Play ambient</button>
+    </div>
+    <section class="hero" id="sectionHero">
+        <div class="hero-content">
+            <div class="hero-card reveal">
+                <h1>Opening your bouquet of memories.</h1>
+                <h2>A premium flower letter designed for one year together.</h2>
+                <p>Soft petals drift, glass cards glow, and every page feels like a private scrapbook for you two.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="sectionLetter">
+        <div class="section-title">A Letter Unfolds</div>
+        <p class="subheading">A luxury paper letter blooms from the bouquet.</p>
+        <article class="letter-card reveal">
+            <div class="letter-fold"></div>
+            <div class="letter-copy">From akif to abyan
+
+waddup shawty, this is something special for my special person you deserve it, you even deserve flowers in real life but we haven't reached that point (yet). You are the most dearest most gorgeous most beautiful person that i have and will ever know. Your personality shines bright like a diamond. You are such a happy person you never fail to make me smile. I am sorry for my mistakes its my first time, i am changing and i promise to keep making myself better for you i promise to forever be yours and keep changing my self for the better of us. I will never stop caring for you and always take care of you and put a smile to your face and be there for you when you need me the most. I love you bubba, you are doing amazing <3. 1 year felt like such a short time because time goes by faster when you are having fun. And all i wann say is that these are the starting years the more is yet to come baby, WE got this in sha allah.</div>
+            <div class="letter-note">🌷 Continue scrolling for our memory lane 🌷</div>
+        </article>
+    </section>
+    <section class="section" id="sectionMemories">
+        <div class="section-title">Memory Lane</div>
+        <p class="subheading">A handcrafted timeline of your favorite moments.</p>
+        <div class="memory-list">
+            <article class="memory-card left reveal">
+                <div class="card-tag">Memory 1</div>
+                <div class="caption">
+                    <h3>The Beginning ♡</h3>
+                    <p>When strangers became something more</p>
+                </div>
+                <div class="polaroid">
+                    <img src="1.jpg" alt="The beginning memory">
+                </div>
+            </article>
+            <article class="memory-card right reveal">
+                <div class="card-tag">Memory 2</div>
+                <div class="caption">
+                    <h3>Late Night Calls ☎</h3>
+                    <p>A cozy playlist of words before sunrise.</p>
+                </div>
+                <div class="polaroid">
+                    <img src="2.PNG" alt="Late night calls">
+                </div>
+                <div class="floating-text">
+                    <span>just one more minute</span>
+                    <span>you hang up first</span>
+                    <span>no YOU hang up first</span>
+                </div>
+            </article>
+            <article class="memory-card left reveal">
+                <div class="card-tag">Memory 3</div>
+                <div class="caption">
+                    <h3>Roblox Adventures 🎮</h3>
+                    <p>Playful dreams full of funny chaos and teamwork.</p>
+                </div>
+                <div class="polaroid">
+                    <img src="3.PNG" alt="Roblox adventures">
+                </div>
+                <div class="floating-text">
+                    <span>carried the team</span>
+                    <span>totally not lost</span>
+                    <span>one more round</span>
+                </div>
+            </article>
+            <article class="memory-card right reveal">
+                <div class="card-tag">Memory 4</div>
+                <div class="caption">
+                    <h3>Our Random Moments ✨</h3>
+                    <p>Every little surprise became a cherished story.</p>
+                </div>
+                <div class="polaroid">
+                    <img src="4.PNG" alt="Random moments">
+                </div>
+                <div class="floating-text">
+                    <span>remember this?</span>
+                    <span>we laughed too hard</span>
+                    <span>core memory unlocked</span>
+                </div>
+            </article>
+            <article class="memory-card left reveal">
+                <div class="card-tag">Memory 5</div>
+                <div class="caption">
+                    <h3>Us ❤️</h3>
+                    <p>Still my favorite person, now and always.</p>
+                </div>
+                <div class="polaroid">
+                    <img src="5.PNG" alt="Us forever">
+                </div>
+                <div class="floating-text">
+                    <span>still my favorite person</span>
+                    <span>one year down</span>
+                    <span>many more memories</span>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="final-garden" id="sectionFinal">
+        <div class="garden-bg"></div>
+        <div class="garden-flowers" id="gardenFlowers"></div>
+        <div class="final-message reveal">
+            <p class="flower">🌷</p>
+            <p>Abyan,</p>
+            <p>Thank you for every smile,</p>
+            <p>every call,</p>
+            <p>every memory,</p>
+            <p>and every moment.</p>
+            <p>This is only the beginning.</p>
+            <p class="author">- Akif</p>
+            <p class="flower">🌷</p>
+        </div>
+    </section>
+</main>
+<audio id="musicPlayer"></audio>
+<script>
+const petalContainer = document.getElementById('petalContainer');
+const tulipCloud = document.getElementById('tulipCloud');
+const introOverlay = document.getElementById('introOverlay');
+const musicPlayer = document.getElementById('musicPlayer');
+const musicToggle = document.getElementById('audioToggle');
+const musicUpload = document.getElementById('musicUpload');
+const revealElements = document.querySelectorAll('.reveal');
+const gardenFlowers = document.getElementById('gardenFlowers');
+
+function randomBetween(min, max) {
+    return min + Math.random() * (max - min);
+}
+
+function createPetals() {
+    for (let i = 0; i < 90; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        const startX = randomBetween(0, 100);
+        const delay = randomBetween(0, 3);
+        const duration = randomBetween(8, 16);
+        petal.style.left = `${startX}%`;
+        petal.style.top = `${randomBetween(-16, 100)}%`;
+        petal.style.transform = `rotate(${randomBetween(-45, 45)}deg)`;
+        petal.style.animation = `petalFloat ${duration}s ease-in-out ${delay}s infinite`;
+        petal.style.opacity = `${randomBetween(0.45, 0.85)}`;
+        petalContainer.appendChild(petal);
+    }
+}
+
+function createTulips() {
+    const directions = ['left', 'right', 'top', 'bottom'];
+    for (let i = 0; i < 8; i++) {
+        const tulip = document.createElement('div');
+        tulip.className = 'tulip';
+        const direction = directions[i % directions.length];
+        const distance = 140;
+        let x = 0, y = 0;
+        if (direction === 'left') { x = -distance; y = randomBetween(20, 70); }
+        if (direction === 'right') { x = distance; y = randomBetween(20, 70); }
+        if (direction === 'top') { x = randomBetween(20, 80); y = -distance; }
+        if (direction === 'bottom') { x = randomBetween(20, 80); y = distance; }
+        tulip.style.left = typeof x === 'number' ? `${x}%` : x;
+        tulip.style.top = typeof y === 'number' ? `${y}%` : y;
+        const delay = 1 + i * 0.22;
+        tulip.style.animation = `tulipFly 1.6s ease ${delay}s forwards, tulipSpin 4s linear infinite ${delay}s`;
+        tulip.style.opacity = '0';
+        tulipCloud.appendChild(tulip);
+    }
+}
+
+function removeIntro() {
+    introOverlay.style.transition = 'opacity 0.9s ease';
+    introOverlay.style.opacity = '0';
+    setTimeout(() => introOverlay.remove(), 900);
+}
+
+function createGardenBlooms() {
+    for (let i = 0; i < 14; i++) {
+        const bloom = document.createElement('div');
+        bloom.className = 'bloom';
+        bloom.style.left = `${randomBetween(5, 90)}%`;
+        bloom.style.bottom = `${randomBetween(2, 35)}%`;
+        bloom.style.animation = `gardenBloom ${randomBetween(4, 6)}s ease-in-out infinite ${randomBetween(0, 3)}s alternate`;
+        bloom.style.transform = `scale(${randomBetween(0.85, 1.25)})`;
+        gardenFlowers.appendChild(bloom);
+    }
+    for (let i = 0; i < 25; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = `${randomBetween(5, 95)}%`;
+        sparkle.style.bottom = `${randomBetween(12, 40)}%`;
+        sparkle.style.animationDuration = `${randomBetween(6, 12)}s`;
+        sparkle.style.opacity = `${randomBetween(0.5, 0.95)}`;
+        gardenFlowers.appendChild(sparkle);
+    }
+}
+
+function setupScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    revealElements.forEach(el => observer.observe(el));
+}
+
+musicUpload.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    musicPlayer.src = url;
+    musicPlayer.loop = true;
+    musicPlayer.play();
+    musicToggle.textContent = 'Pause ambient';
+});
+
+musicToggle.addEventListener('click', () => {
+    if (!musicPlayer.src) {
+        musicUpload.click();
+        return;
+    }
+    if (musicPlayer.paused) {
+        musicPlayer.play();
+        musicToggle.textContent = 'Pause ambient';
+    } else {
+        musicPlayer.pause();
+        musicToggle.textContent = 'Play ambient';
+    }
+});
+
+window.addEventListener('load', () => {
+    createPetals();
+    createTulips();
+    createGardenBlooms();
+    setupScrollReveal();
+    setTimeout(() => {
+        introOverlay.classList.add('hide');
+        removeIntro();
+    }, 5000);
+});
+</script>
+<style>
+@keyframes petalFloat {
+    0% { transform: translateY(0px) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(50px) rotate(18deg); opacity: 0.68; }
+    100% { transform: translateY(100px) rotate(36deg); opacity: 0.4; }
+}
+@keyframes tulipFly {
+    0% { opacity: 0; transform: translate(0,0) scale(0.7); }
+    50% { opacity: 1; transform: translate(0, 20px) scale(0.82); }
+    100% { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+@keyframes tulipSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+@keyframes gardenBloom {
+    from { transform: translateY(0) scale(0.95); opacity: 0.85; }
+    to { transform: translateY(-10px) scale(1.05); opacity: 1; }
+}
+</style>
+</body>
+</html>
